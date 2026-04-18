@@ -32,11 +32,9 @@ export function Hero() {
             className="mt-5 text-5xl sm:text-6xl lg:text-7xl font-display font-bold leading-[1.02]"
           >
             Viaje pelo mundo,{" "}
-            <span className="relative inline-block">
-              <span className="absolute inset-x-0 bottom-1 h-4 rounded-full bg-accent/70" aria-hidden="true" />
-              <span className="relative bg-gradient-sunset bg-clip-text text-transparent">
-                aprendendo brincando
-              </span>
+            <span className="relative inline-block rounded-[1.25rem] px-3 py-1 text-foreground">
+              <span className="absolute inset-0 rounded-[1.25rem] bg-accent/55" aria-hidden="true" />
+              <span className="relative">aprendendo brincando</span>
             </span>{" "}
             ✈️
           </motion.h1>

@@ -152,11 +152,6 @@ function CountryPage() {
               key={`flag-${country.slug}`}
               title="Quiz da Bandeira 🏳️"
               questions={country.flagQuiz}
-              onWin={() => {
-                // both quizzes need to be done — track flag here
-                if (!storyRead[country.slug]) return;
-                // mark games done only if trivia also done — handled below
-              }}
               quizKey={`flag-${country.slug}`}
             />
           )}
@@ -260,7 +255,7 @@ function StorySection({
       <h2 className="text-2xl font-display font-bold flex items-center gap-2">
         <BookOpen className="h-6 w-6 text-primary" /> História do país
       </h2>
-      <div className="mt-4 space-y-4 text-lg leading-relaxed text-foreground/85">
+      <div className="mt-4 space-y-5 text-lg sm:text-xl leading-relaxed text-foreground/85">
         {paragraphs.map((p, i) => (
           <p key={i}>{p}</p>
         ))}
@@ -282,8 +277,14 @@ function StorySection({
 
 type QuizQ = { question: string; options: string[]; answer: string };
 
-// Track quiz completion in module-scoped map per session (lost on refresh — MVP)
-const quizCompletion: Record<string, boolean> = {};
+type QuizProgress = {
+  done: boolean;
+  score: number;
+  total: number;
+};
+
+// Session-only progress for the MVP (lost on refresh)
+const quizProgress: Record<string, QuizProgress> = {};
 
 function QuizGame({
   title,
@@ -295,26 +296,28 @@ function QuizGame({
   quizKey: string;
   onWin?: () => void;
 }) {
+  const savedProgress = quizProgress[quizKey];
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
-  const [done, setDone] = useState(quizCompletion[quizKey] ?? false);
+  const [score, setScore] = useState(savedProgress?.score ?? 0);
+  const [done, setDone] = useState(savedProgress?.done ?? false);
 
   const q = questions[idx];
 
   const handlePick = (opt: string) => {
     if (picked) return;
     setPicked(opt);
+    const nextScore = opt === q.answer ? score + 1 : score;
     if (opt === q.answer) setScore((s) => s + 1);
     setTimeout(() => {
       if (idx + 1 < questions.length) {
         setIdx(idx + 1);
         setPicked(null);
       } else {
-        quizCompletion[quizKey] = true;
+        quizProgress[quizKey] = { done: true, score: nextScore, total: questions.length };
+        setScore(nextScore);
         setDone(true);
-        // notify tracker via event
-        window.dispatchEvent(new CustomEvent("quiz-completed", { detail: quizKey }));
+        window.dispatchEvent(new CustomEvent("quiz-progress-changed", { detail: quizKey }));
       }
     }, 900);
   };
@@ -324,11 +327,12 @@ function QuizGame({
     setPicked(null);
     setScore(0);
     setDone(false);
-    delete quizCompletion[quizKey];
+    delete quizProgress[quizKey];
+    window.dispatchEvent(new CustomEvent("quiz-progress-changed", { detail: quizKey }));
   };
 
   if (done) {
-    const finalScore = score;
+    const finalScore = quizProgress[quizKey]?.score ?? score;
     return (
       <div className="rounded-3xl bg-gradient-tropical p-1 shadow-float">
         <div className="rounded-[1.85rem] bg-card p-8 text-center">
@@ -402,18 +406,17 @@ function GamesTracker({
   const flagKey = `flag-${countrySlug}`;
   const triviaKey = `trivia-${countrySlug}`;
 
-  const [, force] = useState(0);
+  const [version, setVersion] = useState(0);
 
   useEffect(() => {
-    const handler = () => force((n) => n + 1);
-    window.addEventListener("quiz-completed", handler);
-    return () => window.removeEventListener("quiz-completed", handler);
+    const handler = () => setVersion((n) => n + 1);
+    window.addEventListener("quiz-progress-changed", handler);
+    return () => window.removeEventListener("quiz-progress-changed", handler);
   }, []);
 
   const bothDone = useMemo(
-    () => !!quizCompletion[flagKey] && !!quizCompletion[triviaKey],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [flagKey, triviaKey, force],
+    () => !!quizProgress[flagKey]?.done && !!quizProgress[triviaKey]?.done,
+    [flagKey, triviaKey, version],
   );
 
   useEffect(() => {

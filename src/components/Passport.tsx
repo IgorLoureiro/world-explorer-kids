@@ -123,11 +123,9 @@ export function Passport() {
           </span>
           <h2 className="mt-4 text-4xl sm:text-5xl font-display font-bold leading-tight">
             Cada conquista{" "}
-            <span className="relative inline-block">
-              <span className="absolute inset-x-0 bottom-1 h-3 rounded-full bg-[var(--grape)]/30" aria-hidden="true" />
-              <span className="relative bg-gradient-candy bg-clip-text text-transparent">
-                vira um carimbo
-              </span>
+            <span className="relative inline-block rounded-[1.25rem] px-3 py-1 text-foreground">
+              <span className="absolute inset-0 rounded-[1.25rem] bg-secondary/35" aria-hidden="true" />
+              <span className="relative">vira um carimbo</span>
             </span>
           </h2>
           <p className="mt-5 text-lg text-foreground/75">
