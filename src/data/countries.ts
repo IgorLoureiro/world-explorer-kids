@@ -31,7 +31,9 @@ export const COUNTRIES: Record<CountrySlug, CountryData> = {
     story: [
       "O Brasil é o maior país da América do Sul e tem mais de 200 milhões de pessoas! 🌎",
       "Aqui fica a Floresta Amazônica, a maior floresta tropical do planeta, cheia de animais incríveis como onças, tucanos e botos cor-de-rosa.",
+      "O território brasileiro é enorme e tem praias, florestas, serras, rios gigantes e cidades muito diferentes umas das outras.",
       "Os brasileiros amam futebol, samba e festas como o Carnaval, com fantasias coloridas e muita música.",
+      "Em muitas regiões, as crianças brincam de pular corda, amarelinha e soltar pipa nas férias e nos finais de semana.",
       "Comidas típicas: feijoada, brigadeiro e pão de queijo — uma delícia! 🧀",
     ],
     flagQuiz: [
@@ -78,7 +80,9 @@ export const COUNTRIES: Record<CountrySlug, CountryData> = {
     story: [
       "Os Estados Unidos são formados por 50 estados, e cada um tem cultura e paisagens diferentes! 🌟",
       "Em Nova York fica a Estátua da Liberdade, um presente da França. Já em Orlando estão os parques da Disney!",
+      "O país tem desertos, montanhas geladas, praias, florestas e grandes cidades cheias de prédios altos.",
       "O país é famoso por inventar coisas como o cinema de Hollywood, o hambúrguer e o basquete.",
+      "Muitas crianças assistem a jogos esportivos, visitam museus interativos e aprendem sobre espaço em centros da NASA.",
       "Eles celebram o Dia de Ação de Graças com peru e o Halloween com fantasias e doces. 🎃",
     ],
     flagQuiz: [
@@ -125,7 +129,9 @@ export const COUNTRIES: Record<CountrySlug, CountryData> = {
     story: [
       "A China é o país mais populoso do mundo, com mais de 1,4 bilhão de pessoas! 🐼",
       "A Grande Muralha da China é tão longa que pode ser vista do espaço — foi construída há mais de 2.000 anos!",
+      "O país tem cidades supermodernas, templos antigos, montanhas, arrozais e rios muito importantes para a vida das pessoas.",
       "Aqui vivem os pandas-gigantes, que adoram comer bambu o dia inteiro.",
+      "As festas do Ano-Novo Chinês têm lanternas vermelhas, danças do dragão e fogos de artifício bem coloridos.",
       "Os chineses inventaram o papel, a bússola, os fogos de artifício e a impressão. Que demais! 🎆",
     ],
     flagQuiz: [
@@ -172,7 +178,9 @@ export const COUNTRIES: Record<CountrySlug, CountryData> = {
     story: [
       "A Rússia é o maior país do mundo — tão grande que tem 11 fusos horários diferentes! ⏰",
       "Em Moscou fica a Praça Vermelha, com a Catedral de São Basílio, que parece um castelo de doces coloridos.",
+      "Existem florestas imensas, lagos congelados, montanhas e regiões tão frias que a neve fica por muitos meses.",
       "No inverno faz muito frio, e a Sibéria pode chegar a -50°C! Lá vivem ursos pardos e tigres siberianos.",
+      "As crianças russas também gostam de patinar no gelo, brincar na neve e ouvir histórias tradicionais do seu país.",
       "As bonecas Matrioskas, que cabem uma dentro da outra, são um símbolo famoso da Rússia. 🪆",
     ],
     flagQuiz: [
@@ -224,7 +232,9 @@ export const COUNTRIES: Record<CountrySlug, CountryData> = {
     story: [
       "O Japão é um país feito de várias ilhas no Oceano Pacífico — são mais de 6.800! 🏯",
       "Na primavera, as cerejeiras (sakuras) florescem e ficam todas rosinhas. As pessoas fazem piqueniques embaixo delas!",
+      "O Japão mistura tradição e tecnologia, com templos antigos, trens muito rápidos e cidades iluminadas.",
       "É a terra do sushi, do ramen e dos animes como Pokémon, Naruto e Studio Ghibli.",
+      "Muitas crianças japonesas participam de festivais, usam yukata em comemorações e aprendem a respeitar muito a natureza.",
       "O Monte Fuji é uma montanha gigante e sagrada, com o topo coberto de neve a maior parte do ano. 🗻",
     ],
     flagQuiz: [
