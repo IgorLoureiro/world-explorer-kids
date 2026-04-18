@@ -30,10 +30,13 @@ export function Passport() {
           <span className="inline-block rounded-full bg-[var(--mint)]/40 px-4 py-1 text-xs font-bold uppercase tracking-wider">
             Passaporte digital
           </span>
-          <h2 className="mt-4 text-4xl sm:text-5xl font-display font-bold">
+          <h2 className="mt-4 text-4xl sm:text-5xl font-display font-bold leading-tight">
             Cada conquista{" "}
-            <span className="bg-gradient-candy bg-clip-text text-transparent">
-              vira um carimbo
+            <span className="relative inline-block">
+              <span className="absolute inset-x-0 bottom-1 h-3 rounded-full bg-[var(--grape)]/30" aria-hidden="true" />
+              <span className="relative bg-gradient-candy bg-clip-text text-transparent">
+                vira um carimbo
+              </span>
             </span>
           </h2>
           <p className="mt-5 text-lg text-foreground/75">
