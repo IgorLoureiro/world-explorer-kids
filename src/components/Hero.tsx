@@ -33,10 +33,10 @@ export function Hero() {
           >
             Viaje pelo mundo,{" "}
             <span className="relative inline-block">
-              <span className="relative z-10 bg-gradient-sunset bg-clip-text text-transparent">
+              <span className="absolute inset-x-0 bottom-1 h-4 rounded-full bg-accent/70" aria-hidden="true" />
+              <span className="relative bg-gradient-sunset bg-clip-text text-transparent">
                 aprendendo brincando
               </span>
-              <span className="absolute -bottom-2 left-0 right-0 h-3 rounded-full bg-accent/70 -z-0" />
             </span>{" "}
             ✈️
           </motion.h1>
@@ -80,12 +80,12 @@ export function Hero() {
             className="mt-10 flex items-center gap-6 text-sm text-foreground/70"
           >
             <div>
-              <div className="font-display font-bold text-2xl text-foreground">+50</div>
+              <div className="font-display font-bold text-2xl text-foreground">5</div>
               <div>países para explorar</div>
             </div>
             <div className="h-10 w-px bg-border" />
             <div>
-              <div className="font-display font-bold text-2xl text-foreground">120</div>
+              <div className="font-display font-bold text-2xl text-foreground">10</div>
               <div>mini-jogos & quizzes</div>
             </div>
             <div className="hidden sm:block h-10 w-px bg-border" />

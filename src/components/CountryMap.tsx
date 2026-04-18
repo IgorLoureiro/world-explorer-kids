@@ -1,28 +1,13 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import worldMap from "@/assets/world-map.jpg";
-
-type Country = {
-  id: string;
-  name: string;
-  emoji: string;
-  fact: string;
-  x: number;
-  y: number;
-  color: string;
-};
-
-const countries: Country[] = [
-  { id: "br", name: "Brasil", emoji: "🇧🇷", fact: "Tem a maior floresta do mundo!", x: 32, y: 68, color: "var(--mint)" },
-  { id: "fr", name: "França", emoji: "🇫🇷", fact: "Casa da Torre Eiffel ✨", x: 50, y: 32, color: "var(--coral)" },
-  { id: "eg", name: "Egito", emoji: "🇪🇬", fact: "Aqui ficam as Pirâmides!", x: 56, y: 46, color: "var(--sunshine)" },
-  { id: "jp", name: "Japão", emoji: "🇯🇵", fact: "Terra dos cerejeiras 🌸", x: 82, y: 40, color: "var(--grape)" },
-  { id: "au", name: "Austrália", emoji: "🇦🇺", fact: "Cangurus por todo lado!", x: 84, y: 74, color: "var(--sky)" },
-  { id: "us", name: "EUA", emoji: "🇺🇸", fact: "Estátua da Liberdade 🗽", x: 22, y: 38, color: "var(--coral)" },
-];
+import { COUNTRY_LIST } from "@/data/countries";
+import { usePassport } from "@/context/PassportContext";
 
 export function CountryMap() {
-  const [selected, setSelected] = useState<Country>(countries[0]);
+  const [selected, setSelected] = useState(COUNTRY_LIST[0]);
+  const { hasStamp } = usePassport();
 
   return (
     <section id="mapa" className="py-20 sm:py-28">
@@ -35,7 +20,7 @@ export function CountryMap() {
             Toque em um país e descubra! 🗺️
           </h2>
           <p className="mt-4 text-lg text-foreground/70">
-            Cada destino tem histórias, vídeos e jogos esperando por você.
+            Cada destino tem histórias e jogos esperando por você.
           </p>
         </div>
 
@@ -47,19 +32,24 @@ export function CountryMap() {
               alt="Mapa-múndi colorido"
               loading="lazy"
               width={1536}
-              height={1024}
+              height={896}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0">
-              {countries.map((c) => (
+              {COUNTRY_LIST.map((c) => (
                 <button
-                  key={c.id}
+                  key={c.slug}
                   onClick={() => setSelected(c)}
                   style={{ left: `${c.x}%`, top: `${c.y}%`, backgroundColor: c.color }}
-                  className={`absolute -translate-x-1/2 -translate-y-1/2 h-10 w-10 sm:h-12 sm:w-12 rounded-full grid place-items-center text-xl shadow-sticker ring-4 ring-white/80 hover:scale-125 transition-transform ${selected.id === c.id ? "scale-125 ring-primary" : ""}`}
+                  className={`absolute -translate-x-1/2 -translate-y-1/2 h-10 w-10 sm:h-12 sm:w-12 rounded-full grid place-items-center text-xl shadow-sticker ring-4 ring-white/80 hover:scale-125 transition-transform ${selected.slug === c.slug ? "scale-125 ring-primary" : ""}`}
                   aria-label={c.name}
                 >
                   <span className="drop-shadow">{c.emoji}</span>
+                  {hasStamp(c.slug) && (
+                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-[var(--mint)] border-2 border-white text-[10px] grid place-items-center">
+                      ✓
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
@@ -67,7 +57,7 @@ export function CountryMap() {
 
           {/* Info card */}
           <motion.div
-            key={selected.id}
+            key={selected.slug}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
@@ -78,23 +68,24 @@ export function CountryMap() {
               <h3 className="mt-3 text-3xl font-display font-bold">{selected.name}</h3>
               <p className="mt-2 text-foreground/75 text-lg">{selected.fact}</p>
 
-              <div className="mt-6 grid grid-cols-3 gap-2 text-center text-xs font-bold">
+              <div className="mt-6 grid grid-cols-2 gap-2 text-center text-xs font-bold">
                 <div className="rounded-2xl bg-accent/40 py-3">
-                  <div className="text-2xl">🎮</div>3 jogos
-                </div>
-                <div className="rounded-2xl bg-secondary/30 py-3">
-                  <div className="text-2xl">🎬</div>5 vídeos
+                  <div className="text-2xl">🎮</div>2 jogos
                 </div>
                 <div className="rounded-2xl bg-[var(--mint)]/40 py-3">
-                  <div className="text-2xl">📖</div>4 histórias
+                  <div className="text-2xl">📖</div>1 história
                 </div>
               </div>
 
-              <button className="mt-auto pt-6">
+              <Link
+                to="/pais/$slug"
+                params={{ slug: selected.slug }}
+                className="mt-auto pt-6"
+              >
                 <span className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-6 py-3 font-bold shadow-sticker w-full justify-center">
                   Explorar {selected.name} →
                 </span>
-              </button>
+              </Link>
             </div>
           </motion.div>
         </div>
