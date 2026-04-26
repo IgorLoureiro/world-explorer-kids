@@ -55,13 +55,13 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.25 }}
             className="mt-8 flex flex-wrap gap-3"
           >
-            <a
-              href="#mapa"
+            <Link
+              to={isLoggedIn ? "/lobby" : "/login"}
               className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-7 py-4 text-base font-bold shadow-float hover:-translate-y-1 transition-all"
             >
               <Rocket className="h-5 w-5" />
-              Começar minha viagem
-            </a>
+              {isLoggedIn ? "Ir para o lobby" : "Começar minha viagem"}
+            </Link>
             <a
               href="#jogos"
               className="inline-flex items-center gap-2 rounded-full bg-card border-2 border-foreground/10 px-7 py-4 text-base font-bold shadow-sticker hover:border-primary/40 transition"

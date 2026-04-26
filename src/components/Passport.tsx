@@ -122,11 +122,7 @@ export function Passport() {
             Passaporte digital
           </span>
           <h2 className="mt-4 text-4xl sm:text-5xl font-display font-bold leading-tight">
-            Cada conquista{" "}
-            <span className="relative inline-block rounded-[1.25rem] px-3 py-1 text-foreground">
-              <span className="absolute inset-0 rounded-[1.25rem] bg-secondary/35" aria-hidden="true" />
-              <span className="relative">vira um carimbo</span>
-            </span>
+            Cada conquista <span className="text-primary">vira um carimbo</span>
           </h2>
           <p className="mt-5 text-lg text-foreground/75">
             Crie seu passaporte, leia a história de cada país e complete os jogos para
