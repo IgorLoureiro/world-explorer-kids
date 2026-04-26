@@ -126,6 +126,16 @@ export const FLAG_CARDS: {
   { country: "italia", iso: "it", name: "Itália", flag: "🇮🇹" },
   { country: "australia", iso: "au", name: "Austrália", flag: "🇦🇺" },
   { country: "mexico", iso: "mx", name: "México", flag: "🇲🇽" },
+  { country: "argentina", iso: "ar", name: "Argentina", flag: "🇦🇷" },
+  { country: "canada", iso: "ca", name: "Canadá", flag: "🇨🇦" },
+  { country: "reinounido", iso: "gb", name: "Reino Unido", flag: "🇬🇧" },
+  { country: "alemanha", iso: "de", name: "Alemanha", flag: "🇩🇪" },
+  { country: "espanha", iso: "es", name: "Espanha", flag: "🇪🇸" },
+  { country: "egito", iso: "eg", name: "Egito", flag: "🇪🇬" },
+  { country: "india", iso: "in", name: "Índia", flag: "🇮🇳" },
+  { country: "coreiadosul", iso: "kr", name: "Coreia do Sul", flag: "🇰🇷" },
+  { country: "grecia", iso: "gr", name: "Grécia", flag: "🇬🇷" },
+  { country: "portugal", iso: "pt", name: "Portugal", flag: "🇵🇹" },
 ];
 
 // Mapping from country slug to ISO code (for flag rendering on map/passport)
@@ -140,6 +150,16 @@ export const COUNTRY_ISO: Record<CountrySlug, string> = {
   italia: "it",
   australia: "au",
   mexico: "mx",
+  argentina: "ar",
+  canada: "ca",
+  reinounido: "gb",
+  alemanha: "de",
+  espanha: "es",
+  egito: "eg",
+  india: "in",
+  coreiadosul: "kr",
+  grecia: "gr",
+  portugal: "pt",
 };
 
 export const ANIMAL_QUESTIONS = [
@@ -231,4 +251,14 @@ export const ALL_COUNTRY_NAMES = [
   "Itália",
   "Austrália",
   "México",
+  "Argentina",
+  "Canadá",
+  "Reino Unido",
+  "Alemanha",
+  "Espanha",
+  "Egito",
+  "Índia",
+  "Coreia do Sul",
+  "Grécia",
+  "Portugal",
 ];
