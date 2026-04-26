@@ -1,10 +1,37 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-export type CountrySlug = "brasil" | "eua" | "china" | "russia" | "japao";
+import astronaut from "@/assets/avatars/astronaut.png";
+import explorer from "@/assets/avatars/explorer.png";
+import pirate from "@/assets/avatars/pirate.png";
+import scientist from "@/assets/avatars/scientist.png";
+import adventurer from "@/assets/avatars/adventurer.png";
+import samurai from "@/assets/avatars/samurai.png";
+import wizard from "@/assets/avatars/wizard.png";
+import superhero from "@/assets/avatars/superhero.png";
 
-export const AVATAR_OPTIONS = [
-  "🦊", "🐼", "🦁", "🐨", "🦄", "🐯", "🐸", "🐧",
-  "🚀", "🌟", "🦖", "🐳", "🦉", "🐙", "🐝", "🦋",
+export type CountrySlug =
+  | "brasil"
+  | "eua"
+  | "china"
+  | "russia"
+  | "japao"
+  | "africadosul"
+  | "franca"
+  | "italia"
+  | "australia"
+  | "mexico";
+
+export type AvatarOption = { id: string; src: string; label: string };
+
+export const AVATAR_OPTIONS: AvatarOption[] = [
+  { id: "astronaut", src: astronaut, label: "Astronauta" },
+  { id: "explorer", src: explorer, label: "Explorador" },
+  { id: "pirate", src: pirate, label: "Pirata" },
+  { id: "scientist", src: scientist, label: "Cientista" },
+  { id: "adventurer", src: adventurer, label: "Aventureira" },
+  { id: "samurai", src: samurai, label: "Samurai" },
+  { id: "wizard", src: wizard, label: "Mago" },
+  { id: "superhero", src: superhero, label: "Super-herói" },
 ];
 
 type Stamp = {
@@ -17,7 +44,7 @@ type GameId = "memoria" | "bandeiras" | "safari" | "sons" | "monumentos";
 type PassportState = {
   explorerName: string;
   setExplorerName: (name: string) => void;
-  avatar: string;
+  avatar: string; // image URL
   setAvatar: (a: string) => void;
   isLoggedIn: boolean;
   login: (name: string, avatar: string) => void;
@@ -42,6 +69,11 @@ const emptyProgress: Record<CountrySlug, boolean> = {
   china: false,
   russia: false,
   japao: false,
+  africadosul: false,
+  franca: false,
+  italia: false,
+  australia: false,
+  mexico: false,
 };
 
 const emptyMiniGames: Record<GameId, number> = {

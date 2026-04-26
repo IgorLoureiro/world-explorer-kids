@@ -19,7 +19,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const { login } = usePassport();
   const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState<string>(AVATAR_OPTIONS[0]);
+  const [avatar, setAvatar] = useState<string>(AVATAR_OPTIONS[0].src);
   const [error, setError] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -89,20 +89,28 @@ function LoginPage() {
 
             <div>
               <label className="text-sm font-bold">Escolha seu avatar</label>
-              <div className="mt-2 grid grid-cols-8 gap-2">
-                {AVATAR_OPTIONS.map((emoji) => (
+              <div className="mt-2 grid grid-cols-4 sm:grid-cols-4 gap-3">
+                {AVATAR_OPTIONS.map((opt) => (
                   <button
-                    key={emoji}
+                    key={opt.id}
                     type="button"
-                    onClick={() => setAvatar(emoji)}
-                    className={`aspect-square rounded-2xl text-2xl grid place-items-center border-2 transition ${
-                      avatar === emoji
-                        ? "bg-primary/15 border-primary scale-110 shadow-sticker"
-                        : "bg-card border-border hover:border-primary/40"
+                    onClick={() => setAvatar(opt.src)}
+                    className={`group aspect-square rounded-2xl overflow-hidden border-2 transition flex items-center justify-center bg-card ${
+                      avatar === opt.src
+                        ? "border-primary scale-105 shadow-sticker ring-2 ring-primary/30"
+                        : "border-border hover:border-primary/40"
                     }`}
-                    aria-label={`Avatar ${emoji}`}
+                    aria-label={`Avatar ${opt.label}`}
+                    title={opt.label}
                   >
-                    {emoji}
+                    <img
+                      src={opt.src}
+                      alt={opt.label}
+                      loading="lazy"
+                      width={512}
+                      height={512}
+                      className="h-full w-full object-contain p-1"
+                    />
                   </button>
                 ))}
               </div>

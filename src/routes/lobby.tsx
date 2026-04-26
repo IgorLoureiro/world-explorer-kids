@@ -54,8 +54,8 @@ function LobbyPage() {
             Exploradores <span className="text-primary">do Mundo</span>
           </Link>
           <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 rounded-full bg-card border-2 border-border px-3 py-1.5">
-              <span className="text-2xl">{avatar}</span>
+            <div className="hidden sm:flex items-center gap-2 rounded-full bg-card border-2 border-border pl-1 pr-3 py-1">
+              <img src={avatar} alt={explorerName} className="h-8 w-8 rounded-full object-contain bg-muted/40" />
               <span className="font-bold text-sm">{explorerName}</span>
             </div>
             <button
@@ -82,9 +82,9 @@ function LobbyPage() {
             <motion.div
               animate={{ rotate: [0, -5, 5, 0] }}
               transition={{ repeat: Infinity, duration: 4 }}
-              className="h-24 w-24 sm:h-28 sm:w-28 rounded-3xl bg-gradient-sunset grid place-items-center text-6xl shadow-float"
+              className="h-24 w-24 sm:h-28 sm:w-28 rounded-3xl bg-gradient-sunset grid place-items-center overflow-hidden shadow-float"
             >
-              {avatar}
+              <img src={avatar} alt={explorerName} className="h-full w-full object-contain p-2" />
             </motion.div>
             <div>
               <span className="inline-flex items-center gap-1 rounded-full bg-accent/60 px-3 py-1 text-xs font-bold uppercase tracking-wider">
