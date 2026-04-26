@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { LogOut, Map, Sparkles, Stamp as StampIcon, Award } from "lucide-react";
 import { usePassport } from "@/context/PassportContext";
 import { COUNTRY_LIST, COUNTRIES } from "@/data/countries";
-import { MINI_GAMES } from "@/data/miniGames";
+import { MINI_GAMES, COUNTRY_ISO } from "@/data/miniGames";
 import { LobbyMap } from "@/components/LobbyMap";
 import { Progress } from "@/components/ui/progress";
 
@@ -125,24 +125,44 @@ function LobbyPage() {
                 {collected}/{totalCountries}
               </span>
             </div>
-            <div className="mt-5 grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-3 gap-3">
+            <div className="mt-5 grid grid-cols-4 sm:grid-cols-5 gap-3">
               {COUNTRY_LIST.map((c) => {
                 const stamp = stamps.find((s) => s.country === c.slug);
+                const iso = COUNTRY_ISO[c.slug];
                 return (
                   <Link
                     key={c.slug}
                     to="/pais/$slug"
                     params={{ slug: c.slug }}
-                    className={`relative aspect-square rounded-2xl border-2 grid place-items-center text-3xl transition hover:scale-105 ${
+                    className={`relative aspect-square rounded-2xl border-2 overflow-hidden grid place-items-center transition hover:scale-105 ${
                       stamp
-                        ? "bg-card border-[var(--mint)] shadow-sticker"
+                        ? "border-[var(--mint)] shadow-sticker"
                         : "bg-muted/40 border-dashed border-border text-foreground/30"
                     }`}
                     title={stamp ? `${c.name} — ${stamp.date}` : `${c.name} (a desbloquear)`}
                   >
-                    <span className={stamp ? "absolute -rotate-12" : ""}>{c.emoji}</span>
-                    {stamp && (
-                      <span className="absolute inset-0 rounded-2xl border-2 border-[var(--coral)]/40 rotate-3" />
+                    {stamp ? (
+                      <>
+                        <span
+                          className={`fi fi-${iso}`}
+                          aria-label={`Bandeira de ${c.name}`}
+                          style={{
+                            position: "absolute",
+                            inset: 0,
+                            display: "block",
+                            width: "100%",
+                            height: "100%",
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                          }}
+                        />
+                        <span className="absolute inset-0 rounded-2xl border-2 border-[var(--coral)]/40 rotate-3 pointer-events-none" />
+                        <span className="absolute bottom-0 left-0 right-0 text-[9px] font-bold text-white bg-black/55 px-1 py-0.5 text-center truncate">
+                          {c.name}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-2xl opacity-50">🔒</span>
                     )}
                   </Link>
                 );
