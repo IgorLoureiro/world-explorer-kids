@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Trophy, RotateCcw, Volume2 } from "lucide-react";
 import { usePassport } from "@/context/PassportContext";
 import {
@@ -6,6 +6,7 @@ import {
   ANIMAL_QUESTIONS,
   FLAG_CARDS,
   MONUMENT_QUESTIONS,
+  ROUND_SIZE,
   SOUND_QUESTIONS,
   type MiniGameId,
 } from "@/data/miniGames";
@@ -27,15 +28,14 @@ function buildOptions(answer: string): string[] {
 }
 
 function FlagBig({ iso, name }: { iso: string; name: string }) {
-  // flag-icons renders the flag via background-image on the span
   return (
     <span
       className={`fi fi-${iso}`}
       role="img"
       aria-label={`Bandeira de ${name}`}
       style={{
-        width: "12rem",
-        height: "8rem",
+        width: "14rem",
+        height: "9rem",
         display: "inline-block",
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -68,12 +68,12 @@ function ImagePrompt({ src, alt, caption }: { src: string; alt: string; caption?
 function SoundPrompt({
   word,
   phonetic,
-  lang,
+  language,
   onPlay,
 }: {
   word: string;
   phonetic?: string;
-  lang: string;
+  language: string;
   onPlay: () => void;
 }) {
   return (
@@ -92,74 +92,11 @@ function SoundPrompt({
           <div className="text-sm text-foreground/60 mt-1">({phonetic})</div>
         )}
         <div className="text-xs text-foreground/50 mt-2">
-          Idioma: <span className="font-bold uppercase">{lang}</span> • Toque no microfone para ouvir novamente
+          Idioma: <span className="font-bold">{language}</span> • Toque no botão para ouvir
         </div>
       </div>
     </div>
   );
-}
-
-function buildQuestions(
-  gameId: MiniGameId,
-  speak: (text: string, lang: string) => void,
-): QA[] {
-  switch (gameId) {
-    case "bandeiras":
-      return shuffle(FLAG_CARDS).map((c) => ({
-        prompt: <FlagBig iso={c.iso} name={c.name} />,
-        hint: "De qual país é esta bandeira?",
-        answer: c.name,
-        options: buildOptions(c.name),
-      }));
-    case "safari":
-      return shuffle(ANIMAL_QUESTIONS).map((a) => ({
-        prompt: <ImagePrompt src={a.image} alt={a.animal} caption={a.animal} />,
-        hint: "Em qual país vive este animal?",
-        answer: a.country,
-        options: buildOptions(a.country),
-      }));
-    case "sons":
-      return shuffle(SOUND_QUESTIONS).map((s) => ({
-        prompt: (
-          <SoundPrompt
-            word={s.word}
-            phonetic={s.phonetic}
-            lang={s.lang}
-            onPlay={() => speak(s.word, s.lang)}
-          />
-        ),
-        hint: "De qual país vem essa saudação?",
-        answer: s.country,
-        options: buildOptions(s.country),
-      }));
-    case "monumentos":
-      return shuffle(MONUMENT_QUESTIONS).map((m) => ({
-        prompt: <ImagePrompt src={m.image} alt={m.name} caption={m.name} />,
-        hint: "Em qual país fica este monumento?",
-        answer: m.country,
-        options: buildOptions(m.country),
-      }));
-    default:
-      return [];
-  }
-}
-
-function speak(text: string, lang: string) {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  try {
-    window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = lang;
-    utter.rate = 0.9;
-    utter.pitch = 1;
-    // Try to find a matching voice
-    const voices = window.speechSynthesis.getVoices();
-    const match = voices.find((v) => v.lang?.toLowerCase().startsWith(lang.toLowerCase().slice(0, 2)));
-    if (match) utter.voice = match;
-    window.speechSynthesis.speak(utter);
-  } catch {
-    /* noop */
-  }
 }
 
 export function ChoiceQuiz({
@@ -173,28 +110,85 @@ export function ChoiceQuiz({
 }) {
   const { setMiniGameScore } = usePassport();
   const [seed, setSeed] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Preload voices in browsers that load them async
-  useEffect(() => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    const load = () => window.speechSynthesis.getVoices();
-    load();
-    window.speechSynthesis.onvoiceschanged = load;
-  }, []);
+  const playAudio = (src: string) => {
+    try {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+      const a = new Audio(src);
+      audioRef.current = a;
+      void a.play();
+    } catch {
+      /* noop */
+    }
+  };
 
-  const questions = useMemo(() => buildQuestions(gameId, speak), [gameId, seed]);
+  const questions = useMemo<QA[]>(() => {
+    void seed;
+    switch (gameId) {
+      case "bandeiras":
+        return shuffle(FLAG_CARDS)
+          .slice(0, ROUND_SIZE)
+          .map((c) => ({
+            prompt: <FlagBig iso={c.iso} name={c.name} />,
+            hint: "De qual país é esta bandeira?",
+            answer: c.name,
+            options: buildOptions(c.name),
+          }));
+      case "safari":
+        return shuffle(ANIMAL_QUESTIONS)
+          .slice(0, ROUND_SIZE)
+          .map((a) => ({
+            prompt: <ImagePrompt src={a.image} alt={a.animal} caption={a.animal} />,
+            hint: "Em qual país vive este animal?",
+            answer: a.country,
+            options: buildOptions(a.country),
+          }));
+      case "sons":
+        return shuffle(SOUND_QUESTIONS)
+          .slice(0, ROUND_SIZE)
+          .map((s) => ({
+            prompt: (
+              <SoundPrompt
+                word={s.word}
+                phonetic={s.phonetic}
+                language={s.language}
+                onPlay={() => playAudio(s.audio)}
+              />
+            ),
+            hint: "De qual país vem essa saudação?",
+            answer: s.country,
+            options: buildOptions(s.country),
+          }));
+      case "monumentos":
+        return shuffle(MONUMENT_QUESTIONS)
+          .slice(0, ROUND_SIZE)
+          .map((m) => ({
+            prompt: <ImagePrompt src={m.image} alt={m.name} caption={m.name} />,
+            hint: "Em qual país fica este monumento?",
+            answer: m.country,
+            options: buildOptions(m.country),
+          }));
+      default:
+        return [];
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameId, seed]);
+
   const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
 
-  // Auto-play sounds question on appear
+  // Auto-play audio when a sound question appears
   useEffect(() => {
     if (gameId !== "sons" || done) return;
-    const s = SOUND_QUESTIONS;
-    // The current question's data isn't directly available; trigger via the prompt button only.
-    // We avoid auto-playing to keep it on-demand per the user's request.
-    void s;
+    const q = SOUND_QUESTIONS;
+    void q;
+    // We rely on user click for play (better UX & no autoplay block)
   }, [idx, gameId, done]);
 
   const q = questions[idx];
@@ -246,9 +240,6 @@ export function ChoiceQuiz({
     );
   }
 
-  // For flag quiz, render flag-image options instead of plain text
-  const isFlagQuiz = gameId === "bandeiras";
-
   return (
     <div className="rounded-3xl bg-card p-6 sm:p-8 border-2 border-border/40 shadow-soft">
       <div className="flex items-center justify-between">
@@ -275,13 +266,12 @@ export function ChoiceQuiz({
         {q.options.map((opt) => {
           const isCorrect = picked && opt === q.answer;
           const isWrong = picked === opt && opt !== q.answer;
-          const optionFlag = isFlagQuiz ? FLAG_CARDS.find((f) => f.name === opt) : undefined;
           return (
             <button
               key={opt}
               onClick={() => handlePick(opt)}
               disabled={!!picked}
-              className={`rounded-2xl border-2 px-5 py-4 font-semibold transition flex items-center gap-3 ${
+              className={`rounded-2xl border-2 px-5 py-4 font-semibold transition text-left ${
                 isCorrect
                   ? "bg-[var(--mint)]/40 border-[var(--mint)]"
                   : isWrong
@@ -289,22 +279,7 @@ export function ChoiceQuiz({
                     : "bg-card border-border hover:border-primary/40 hover:-translate-y-0.5"
               }`}
             >
-              {optionFlag && (
-                <span
-                  className={`fi fi-${optionFlag.iso}`}
-                  aria-hidden
-                  style={{
-                    width: "2.25rem",
-                    height: "1.5rem",
-                    display: "inline-block",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    borderRadius: "0.25rem",
-                    boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
-                  }}
-                />
-              )}
-              <span className="text-left">{opt}</span>
+              {opt}
             </button>
           );
         })}
