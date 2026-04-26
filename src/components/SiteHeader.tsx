@@ -1,7 +1,10 @@
-import { Globe } from "lucide-react";
+import { Globe, LogIn, LayoutDashboard } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { usePassport } from "@/context/PassportContext";
 
 export function SiteHeader() {
+  const { isLoggedIn, avatar, explorerName } = usePassport();
+
   return (
     <header className="sticky top-0 z-40 backdrop-blur-md bg-background/70 border-b border-border/60">
       <div className="mx-auto max-w-7xl flex items-center justify-between px-4 sm:px-6 py-3">
@@ -19,13 +22,23 @@ export function SiteHeader() {
           <Link to="/" hash="passaporte" className="hover:text-primary transition">Passaporte</Link>
           <Link to="/" hash="familia" className="hover:text-primary transition">Para a família</Link>
         </nav>
-        <Link
-          to="/"
-          hash="mapa"
-          className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-bold shadow-sticker hover:-translate-y-0.5 transition"
-        >
-          Começar a aventura
-        </Link>
+        {isLoggedIn ? (
+          <Link
+            to="/lobby"
+            className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-2 text-sm font-bold shadow-sticker hover:-translate-y-0.5 transition"
+          >
+            <span className="text-lg leading-none">{avatar}</span>
+            <span className="hidden sm:inline">Lobby de {explorerName}</span>
+            <LayoutDashboard className="h-4 w-4 sm:hidden" />
+          </Link>
+        ) : (
+          <Link
+            to="/login"
+            className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-bold shadow-sticker hover:-translate-y-0.5 transition"
+          >
+            <LogIn className="h-4 w-4" /> Entrar
+          </Link>
+        )}
       </div>
     </header>
   );

@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
 import { Sparkles, Rocket, PlayCircle } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import luna from "@/assets/luna-mascot.png";
+import { usePassport } from "@/context/PassportContext";
 
 export function Hero() {
+  const { isLoggedIn } = usePassport();
   return (
     <section id="top" className="relative overflow-hidden pt-10 pb-24 sm:pt-16 sm:pb-32">
       {/* Floating decorations */}
@@ -32,10 +35,7 @@ export function Hero() {
             className="mt-5 text-5xl sm:text-6xl lg:text-7xl font-display font-bold leading-[1.02]"
           >
             Viaje pelo mundo,{" "}
-            <span className="relative inline-block rounded-[1.25rem] px-3 py-1 text-foreground">
-              <span className="absolute inset-0 rounded-[1.25rem] bg-accent/55" aria-hidden="true" />
-              <span className="relative">aprendendo brincando</span>
-            </span>{" "}
+            <span className="text-primary">aprendendo brincando</span>{" "}
             ✈️
           </motion.h1>
 
@@ -55,13 +55,13 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.25 }}
             className="mt-8 flex flex-wrap gap-3"
           >
-            <a
-              href="#mapa"
+            <Link
+              to={isLoggedIn ? "/lobby" : "/login"}
               className="inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-7 py-4 text-base font-bold shadow-float hover:-translate-y-1 transition-all"
             >
               <Rocket className="h-5 w-5" />
-              Começar minha viagem
-            </a>
+              {isLoggedIn ? "Ir para o lobby" : "Começar minha viagem"}
+            </Link>
             <a
               href="#jogos"
               className="inline-flex items-center gap-2 rounded-full bg-card border-2 border-foreground/10 px-7 py-4 text-base font-bold shadow-sticker hover:border-primary/40 transition"
