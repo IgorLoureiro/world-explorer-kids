@@ -11,6 +11,13 @@ import rooster from "@/assets/animals/rooster.jpg";
 import wolf from "@/assets/animals/wolf.jpg";
 import kangaroo from "@/assets/animals/kangaroo.jpg";
 import goldenEagle from "@/assets/animals/golden-eagle.jpg";
+import toucan from "@/assets/animals/toucan.jpg";
+import bison from "@/assets/animals/bison.jpg";
+import siberianTiger from "@/assets/animals/siberian-tiger.jpg";
+import snowMonkey from "@/assets/animals/snow-monkey.jpg";
+import koala from "@/assets/animals/koala.jpg";
+import jaguar from "@/assets/animals/jaguar.jpg";
+import elephant from "@/assets/animals/elephant.jpg";
 
 import liberty from "@/assets/monuments/liberty.jpg";
 import himeji from "@/assets/monuments/himeji.jpg";
@@ -22,6 +29,17 @@ import eiffel from "@/assets/monuments/eiffel.jpg";
 import colosseum from "@/assets/monuments/colosseum.jpg";
 import operaHouse from "@/assets/monuments/opera-house.jpg";
 import chichenItza from "@/assets/monuments/chichen-itza.jpg";
+import sugarloaf from "@/assets/monuments/sugarloaf.jpg";
+import lencois from "@/assets/monuments/lencois.jpg";
+import rushmore from "@/assets/monuments/rushmore.jpg";
+import forbiddenCity from "@/assets/monuments/forbidden-city.jpg";
+import mtFuji from "@/assets/monuments/mt-fuji.jpg";
+import hermitage from "@/assets/monuments/hermitage.jpg";
+import montStMichel from "@/assets/monuments/mont-saint-michel.jpg";
+import pisa from "@/assets/monuments/pisa.jpg";
+import uluru from "@/assets/monuments/uluru.jpg";
+import teotihuacan from "@/assets/monuments/teotihuacan.jpg";
+import capeGoodHope from "@/assets/monuments/cape-good-hope.jpg";
 
 import olaSnd from "@/assets/sounds/ola.mp3";
 import helloSnd from "@/assets/sounds/hello.mp3";
@@ -78,7 +96,7 @@ export const MINI_GAMES: MiniGameMeta[] = [
     title: "Sons do Mundo",
     emoji: "🎵",
     tagline: "Adivinhe o país pelo som",
-    description: "Ouça uma palavra ou expressão e adivinhe o idioma do país.",
+    description: "Ouça uma palavra ou expressão e adivinhe o país de origem.",
     color: "var(--sunshine)",
   },
   {
@@ -110,18 +128,49 @@ export const FLAG_CARDS: {
   { country: "mexico", iso: "mx", name: "México", flag: "🇲🇽" },
 ];
 
+// Mapping from country slug to ISO code (for flag rendering on map/passport)
+export const COUNTRY_ISO: Record<CountrySlug, string> = {
+  brasil: "br",
+  eua: "us",
+  china: "cn",
+  russia: "ru",
+  japao: "jp",
+  africadosul: "za",
+  franca: "fr",
+  italia: "it",
+  australia: "au",
+  mexico: "mx",
+};
+
 export const ANIMAL_QUESTIONS = [
-  { image: panda, country: "China", animal: "Panda-gigante" },
-  { image: eagle, country: "Estados Unidos", animal: "Águia-careca" },
+  // Brasil
   { image: macaw, country: "Brasil", animal: "Arara" },
-  { image: brownBear, country: "Rússia", animal: "Urso-pardo" },
-  { image: redFox, country: "Japão", animal: "Raposa-vermelha" },
   { image: caiman, country: "Brasil", animal: "Jacaré" },
+  { image: toucan, country: "Brasil", animal: "Tucano" },
+  // EUA
+  { image: eagle, country: "Estados Unidos", animal: "Águia-careca" },
+  { image: bison, country: "Estados Unidos", animal: "Bisão americano" },
+  // China
+  { image: panda, country: "China", animal: "Panda-gigante" },
+  // Rússia
+  { image: brownBear, country: "Rússia", animal: "Urso-pardo" },
+  { image: siberianTiger, country: "Rússia", animal: "Tigre-siberiano" },
+  // Japão
+  { image: redFox, country: "Japão", animal: "Raposa-vermelha" },
+  { image: snowMonkey, country: "Japão", animal: "Macaco da neve" },
+  // África do Sul
   { image: lion, country: "África do Sul", animal: "Leão" },
+  { image: elephant, country: "África do Sul", animal: "Elefante africano" },
+  // França
   { image: rooster, country: "França", animal: "Galo gaulês" },
+  // Itália
   { image: wolf, country: "Itália", animal: "Lobo-cinzento" },
+  // Austrália
   { image: kangaroo, country: "Austrália", animal: "Canguru" },
+  { image: koala, country: "Austrália", animal: "Coala" },
+  // México
   { image: goldenEagle, country: "México", animal: "Águia-real" },
+  { image: jaguar, country: "México", animal: "Jaguar" },
 ];
 
 export const SOUND_QUESTIONS = [
@@ -138,16 +187,37 @@ export const SOUND_QUESTIONS = [
 ];
 
 export const MONUMENT_QUESTIONS = [
-  { image: liberty, name: "Estátua da Liberdade", country: "Estados Unidos" },
-  { image: himeji, name: "Castelo de Himeji", country: "Japão" },
-  { image: greatWall, name: "Grande Muralha", country: "China" },
-  { image: stBasil, name: "Catedral de São Basílio", country: "Rússia" },
+  // Brasil
   { image: christRedeemer, name: "Cristo Redentor", country: "Brasil" },
+  { image: sugarloaf, name: "Pão de Açúcar", country: "Brasil" },
+  { image: lencois, name: "Lençóis Maranhenses", country: "Brasil" },
+  // EUA
+  { image: liberty, name: "Estátua da Liberdade", country: "Estados Unidos" },
+  { image: rushmore, name: "Monte Rushmore", country: "Estados Unidos" },
+  // China
+  { image: greatWall, name: "Grande Muralha", country: "China" },
+  { image: forbiddenCity, name: "Cidade Proibida", country: "China" },
+  // Rússia
+  { image: stBasil, name: "Catedral de São Basílio", country: "Rússia" },
+  { image: hermitage, name: "Museu Hermitage", country: "Rússia" },
+  // Japão
+  { image: himeji, name: "Castelo de Himeji", country: "Japão" },
+  { image: mtFuji, name: "Monte Fuji", country: "Japão" },
+  // África do Sul
   { image: tableMountain, name: "Table Mountain", country: "África do Sul" },
+  { image: capeGoodHope, name: "Cabo da Boa Esperança", country: "África do Sul" },
+  // França
   { image: eiffel, name: "Torre Eiffel", country: "França" },
+  { image: montStMichel, name: "Mont Saint-Michel", country: "França" },
+  // Itália
   { image: colosseum, name: "Coliseu", country: "Itália" },
+  { image: pisa, name: "Torre de Pisa", country: "Itália" },
+  // Austrália
   { image: operaHouse, name: "Casa de Ópera de Sydney", country: "Austrália" },
+  { image: uluru, name: "Uluru (Ayers Rock)", country: "Austrália" },
+  // México
   { image: chichenItza, name: "Chichén Itzá", country: "México" },
+  { image: teotihuacan, name: "Teotihuacán", country: "México" },
 ];
 
 export const ALL_COUNTRY_NAMES = [

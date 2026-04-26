@@ -68,12 +68,10 @@ function ImagePrompt({ src, alt, caption }: { src: string; alt: string; caption?
 function SoundPrompt({
   word,
   phonetic,
-  language,
   onPlay,
 }: {
   word: string;
   phonetic?: string;
-  language: string;
   onPlay: () => void;
 }) {
   return (
@@ -92,7 +90,7 @@ function SoundPrompt({
           <div className="text-sm text-foreground/60 mt-1">({phonetic})</div>
         )}
         <div className="text-xs text-foreground/50 mt-2">
-          Idioma: <span className="font-bold">{language}</span> • Toque no botão para ouvir
+          Toque no botão para ouvir
         </div>
       </div>
     </div>
@@ -155,7 +153,6 @@ export function ChoiceQuiz({
               <SoundPrompt
                 word={s.word}
                 phonetic={s.phonetic}
-                language={s.language}
                 onPlay={() => playAudio(s.audio)}
               />
             ),
