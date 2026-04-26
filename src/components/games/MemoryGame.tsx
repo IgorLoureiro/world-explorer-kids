@@ -3,8 +3,9 @@ import { motion } from "framer-motion";
 import { RotateCcw, Trophy } from "lucide-react";
 import { FLAG_CARDS } from "@/data/miniGames";
 import { usePassport } from "@/context/PassportContext";
+import cardBack from "@/assets/card-back.png";
 
-type Card = { id: number; flag: string; matched: boolean };
+type Card = { id: number; iso: string; name: string; matched: boolean };
 
 function shuffle<T>(arr: T[]) {
   return [...arr].sort(() => Math.random() - 0.5);
@@ -12,7 +13,12 @@ function shuffle<T>(arr: T[]) {
 
 function buildDeck(): Card[] {
   const doubled = [...FLAG_CARDS, ...FLAG_CARDS];
-  return shuffle(doubled).map((c, i) => ({ id: i, flag: c.flag, matched: false }));
+  return shuffle(doubled).map((c, i) => ({
+    id: i,
+    iso: c.iso,
+    name: c.name,
+    matched: false,
+  }));
 }
 
 export function MemoryGame() {
@@ -34,7 +40,6 @@ export function MemoryGame() {
   useEffect(() => {
     if (allMatched && !done) {
       setDone(true);
-      // best score = fewer moves better; convert to a 0-100 score
       const score = Math.max(0, 100 - (moves - FLAG_CARDS.length) * 5);
       setMiniGameScore("memoria", score);
     }
@@ -49,9 +54,11 @@ export function MemoryGame() {
     if (next.length === 2) {
       setMoves((m) => m + 1);
       const [a, b] = next;
-      if (deck[a].flag === deck[b].flag) {
+      if (deck[a].iso === deck[b].iso) {
         setTimeout(() => {
-          setDeck((d) => d.map((c, i) => (i === a || i === b ? { ...c, matched: true } : c)));
+          setDeck((d) =>
+            d.map((c, i) => (i === a || i === b ? { ...c, matched: true } : c)),
+          );
           setOpen([]);
         }, 500);
       } else {
@@ -78,7 +85,7 @@ export function MemoryGame() {
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-4 sm:grid-cols-5 gap-3">
+      <div className="mt-6 grid grid-cols-3 sm:grid-cols-5 gap-3 sm:gap-4">
         {deck.map((card, i) => {
           const isOpen = open.includes(i) || card.matched;
           return (
@@ -86,15 +93,37 @@ export function MemoryGame() {
               key={card.id}
               onClick={() => flip(i)}
               whileTap={{ scale: 0.95 }}
-              className={`aspect-square rounded-2xl border-2 grid place-items-center text-4xl sm:text-5xl transition ${
+              aria-label={isOpen ? `Bandeira de ${card.name}` : "Carta virada"}
+              className={`relative aspect-[3/4] rounded-2xl border-4 overflow-hidden transition ${
                 isOpen
                   ? card.matched
-                    ? "bg-[var(--mint)]/30 border-[var(--mint)]"
-                    : "bg-card border-primary"
-                  : "bg-gradient-tropical border-card text-transparent"
+                    ? "border-[var(--mint)] bg-[var(--mint)]/15"
+                    : "border-primary bg-card"
+                  : "border-card bg-gradient-tropical"
               }`}
             >
-              {isOpen ? card.flag : "?"}
+              {isOpen ? (
+                <span
+                  className={`fi fi-${card.iso} absolute inset-0`}
+                  aria-hidden
+                  style={{
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                />
+              ) : (
+                <div className="absolute inset-0 grid place-items-center bg-gradient-tropical">
+                  <img
+                    src={cardBack}
+                    alt=""
+                    aria-hidden
+                    loading="lazy"
+                    width={512}
+                    height={512}
+                    className="h-3/5 w-3/5 object-contain drop-shadow-md opacity-95"
+                  />
+                </div>
+              )}
             </motion.button>
           );
         })}
