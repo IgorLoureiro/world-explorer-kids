@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { RotateCcw, Trophy } from "lucide-react";
 import { FLAG_CARDS, ROUND_SIZE } from "@/data/miniGames";
 import { usePassport } from "@/context/PassportContext";
@@ -13,7 +13,6 @@ function shuffle<T>(arr: T[]): T[] {
 
 function buildDeck(seed: number): Card[] {
   void seed;
-  // Random subset of countries each round, then duplicated to make pairs
   const subset = shuffle(FLAG_CARDS).slice(0, ROUND_SIZE);
   const doubled = [...subset, ...subset];
   return shuffle(doubled).map((c, i) => ({
@@ -32,6 +31,7 @@ export function MemoryGame() {
   const [open, setOpen] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
   const [done, setDone] = useState(false);
+  const [shuffling, setShuffling] = useState(true);
 
   const reset = () => {
     setSeed((s) => s + 1);
@@ -40,9 +40,12 @@ export function MemoryGame() {
     setDone(false);
   };
 
-  // When seed changes, refresh the deck
+  // Refresh deck and play shuffle animation when seed changes
   useEffect(() => {
     setDeck(initialDeck);
+    setShuffling(true);
+    const t = setTimeout(() => setShuffling(false), 900);
+    return () => clearTimeout(t);
   }, [initialDeck]);
 
   const allMatched = deck.length > 0 && deck.every((c) => c.matched);
@@ -56,6 +59,7 @@ export function MemoryGame() {
   }, [allMatched, done, moves, setMiniGameScore]);
 
   const flip = (idx: number) => {
+    if (shuffling) return;
     if (open.length === 2) return;
     if (open.includes(idx)) return;
     if (deck[idx].matched) return;
@@ -70,7 +74,7 @@ export function MemoryGame() {
             d.map((c, i) => (i === a || i === b ? { ...c, matched: true } : c)),
           );
           setOpen([]);
-        }, 500);
+        }, 600);
       } else {
         setTimeout(() => setOpen([]), 900);
       }
@@ -97,59 +101,104 @@ export function MemoryGame() {
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-4">
-        {deck.map((card, i) => {
-          const isOpen = open.includes(i) || card.matched;
-          return (
-            <motion.button
-              key={card.id}
-              onClick={() => flip(i)}
-              whileTap={{ scale: 0.95 }}
-              aria-label={isOpen ? `Bandeira de ${card.name}` : "Carta virada"}
-              className={`relative aspect-[3/4] rounded-2xl border-4 overflow-hidden transition ${
-                isOpen
-                  ? card.matched
-                    ? "border-[var(--mint)]"
-                    : "border-primary"
-                  : "border-card"
-              }`}
-            >
-              {isOpen ? (
-                <>
-                  <span
-                    className={`fi fi-${card.iso}`}
-                    aria-hidden
+      <div
+        className="mt-6 grid grid-cols-3 sm:grid-cols-4 gap-3 sm:gap-4"
+        style={{ perspective: 1000 }}
+      >
+        <AnimatePresence mode="popLayout">
+          {deck.map((card, i) => {
+            const isOpen = open.includes(i) || card.matched;
+            // Shuffle animation: cards fly in from random offsets
+            const initialX = ((i * 73) % 11 - 5) * 30;
+            const initialY = ((i * 53) % 7 - 3) * 30;
+            return (
+              <motion.button
+                key={`${seed}-${card.id}`}
+                onClick={() => flip(i)}
+                whileTap={{ scale: 0.95 }}
+                initial={{
+                  x: initialX,
+                  y: initialY,
+                  rotate: (initialX + initialY) % 30,
+                  opacity: 0,
+                  scale: 0.6,
+                }}
+                animate={{
+                  x: 0,
+                  y: 0,
+                  rotate: 0,
+                  opacity: 1,
+                  scale: 1,
+                }}
+                transition={{
+                  duration: 0.55,
+                  delay: shuffling ? (i * 0.04) : 0,
+                  type: "spring",
+                  stiffness: 180,
+                  damping: 16,
+                }}
+                aria-label={isOpen ? `Bandeira de ${card.name}` : "Carta virada"}
+                className={`relative aspect-[3/4] rounded-2xl border-4 overflow-hidden ${
+                  isOpen
+                    ? card.matched
+                      ? "border-[var(--mint)]"
+                      : "border-primary"
+                    : "border-card"
+                }`}
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <motion.div
+                  className="absolute inset-0"
+                  style={{ transformStyle: "preserve-3d" }}
+                  animate={{ rotateY: isOpen ? 180 : 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {/* Back of card */}
+                  <div
+                    className="absolute inset-0 grid place-items-center bg-gradient-tropical"
+                    style={{ backfaceVisibility: "hidden" }}
+                  >
+                    <img
+                      src={cardBack}
+                      alt=""
+                      aria-hidden
+                      loading="lazy"
+                      width={512}
+                      height={512}
+                      className="h-3/5 w-3/5 object-contain drop-shadow-md opacity-95"
+                    />
+                  </div>
+                  {/* Front of card (flag) */}
+                  <div
+                    className="absolute inset-0"
                     style={{
-                      position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      display: "block",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      backgroundRepeat: "no-repeat",
+                      backfaceVisibility: "hidden",
+                      transform: "rotateY(180deg)",
                     }}
-                  />
-                  <span className="absolute bottom-1 left-1 right-1 text-[10px] sm:text-xs font-bold text-white bg-black/55 rounded-md px-1 py-0.5 text-center truncate">
-                    {card.name}
-                  </span>
-                </>
-              ) : (
-                <div className="absolute inset-0 grid place-items-center bg-gradient-tropical">
-                  <img
-                    src={cardBack}
-                    alt=""
-                    aria-hidden
-                    loading="lazy"
-                    width={512}
-                    height={512}
-                    className="h-3/5 w-3/5 object-contain drop-shadow-md opacity-95"
-                  />
-                </div>
-              )}
-            </motion.button>
-          );
-        })}
+                  >
+                    <span
+                      className={`fi fi-${card.iso}`}
+                      aria-hidden
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        width: "100%",
+                        height: "100%",
+                        display: "block",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                    />
+                    <span className="absolute bottom-1 left-1 right-1 text-[10px] sm:text-xs font-bold text-white bg-black/55 rounded-md px-1 py-0.5 text-center truncate">
+                      {card.name}
+                    </span>
+                  </div>
+                </motion.div>
+              </motion.button>
+            );
+          })}
+        </AnimatePresence>
       </div>
 
       {done && (
