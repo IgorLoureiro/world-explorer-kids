@@ -19,7 +19,17 @@ export type CountrySlug =
   | "franca"
   | "italia"
   | "australia"
-  | "mexico";
+  | "mexico"
+  | "argentina"
+  | "canada"
+  | "reinounido"
+  | "alemanha"
+  | "espanha"
+  | "egito"
+  | "india"
+  | "coreiadosul"
+  | "grecia"
+  | "portugal";
 
 export type AvatarOption = { id: string; src: string; label: string };
 
@@ -74,6 +84,16 @@ const emptyProgress: Record<CountrySlug, boolean> = {
   italia: false,
   australia: false,
   mexico: false,
+  argentina: false,
+  canada: false,
+  reinounido: false,
+  alemanha: false,
+  espanha: false,
+  egito: false,
+  india: false,
+  coreiadosul: false,
+  grecia: false,
+  portugal: false,
 };
 
 const emptyMiniGames: Record<GameId, number> = {
