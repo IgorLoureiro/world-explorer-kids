@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
 import { Sparkles, Rocket, PlayCircle } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import luna from "@/assets/luna-mascot.png";
+import { usePassport } from "@/context/PassportContext";
 
 export function Hero() {
+  const { isLoggedIn } = usePassport();
   return (
     <section id="top" className="relative overflow-hidden pt-10 pb-24 sm:pt-16 sm:pb-32">
       {/* Floating decorations */}
@@ -32,10 +35,7 @@ export function Hero() {
             className="mt-5 text-5xl sm:text-6xl lg:text-7xl font-display font-bold leading-[1.02]"
           >
             Viaje pelo mundo,{" "}
-            <span className="relative inline-block rounded-[1.25rem] px-3 py-1 text-foreground">
-              <span className="absolute inset-0 rounded-[1.25rem] bg-accent/55" aria-hidden="true" />
-              <span className="relative">aprendendo brincando</span>
-            </span>{" "}
+            <span className="text-primary">aprendendo brincando</span>{" "}
             ✈️
           </motion.h1>
 
