@@ -68,6 +68,7 @@ function CountryPage() {
     markGamesDone,
     addStamp,
     hasStamp,
+    isLoggedIn,
   } = usePassport();
 
   const [tab, setTab] = useState<Tab>("historia");
@@ -84,20 +85,25 @@ function CountryPage() {
     }
   }, [ready, country.slug, hasStamp, addStamp]);
 
-  const { isLoggedIn: loggedIn } = usePassport();
-  const backTo = loggedIn ? "/lobby" : "/";
-  const backLabel = loggedIn ? "Voltar ao lobby" : "Voltar ao mapa";
-
   return (
     <div className="min-h-screen">
       <SiteHeader />
       <main className="mx-auto max-w-5xl px-4 sm:px-6 py-10">
-        <Link
-          to={backTo}
-          className="inline-flex items-center gap-2 text-sm font-bold text-foreground/70 hover:text-primary transition"
-        >
-          <ArrowLeft className="h-4 w-4" /> {backLabel}
-        </Link>
+        {isLoggedIn ? (
+          <Link
+            to="/lobby"
+            className="inline-flex items-center gap-2 text-sm font-bold text-foreground/70 hover:text-primary transition"
+          >
+            <ArrowLeft className="h-4 w-4" /> Voltar ao lobby
+          </Link>
+        ) : (
+          <Link
+            to="/"
+            className="inline-flex items-center gap-2 text-sm font-bold text-foreground/70 hover:text-primary transition"
+          >
+            <ArrowLeft className="h-4 w-4" /> Voltar ao mapa
+          </Link>
+        )}
 
         {/* Header card */}
         <div
