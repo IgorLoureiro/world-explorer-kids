@@ -1,5 +1,18 @@
 import type { CountrySlug } from "@/context/PassportContext";
 
+import panda from "@/assets/animals/panda.jpg";
+import eagle from "@/assets/animals/eagle.jpg";
+import macaw from "@/assets/animals/macaw.jpg";
+import brownBear from "@/assets/animals/brown-bear.jpg";
+import redFox from "@/assets/animals/red-fox.jpg";
+import caiman from "@/assets/animals/caiman.jpg";
+
+import liberty from "@/assets/monuments/liberty.jpg";
+import himeji from "@/assets/monuments/himeji.jpg";
+import greatWall from "@/assets/monuments/great-wall.jpg";
+import stBasil from "@/assets/monuments/st-basil.jpg";
+import christRedeemer from "@/assets/monuments/christ-redeemer.jpg";
+
 export type MiniGameId = "memoria" | "bandeiras" | "safari" | "sons" | "monumentos";
 
 export type MiniGameMeta = {
@@ -8,7 +21,7 @@ export type MiniGameMeta = {
   emoji: string;
   tagline: string;
   description: string;
-  color: string; // css var ref
+  color: string;
 };
 
 export const MINI_GAMES: MiniGameMeta[] = [
@@ -54,39 +67,43 @@ export const MINI_GAMES: MiniGameMeta[] = [
   },
 ];
 
-// --- shared content used by mini-games ---
-
-export const FLAG_CARDS: { country: CountrySlug; flag: string; name: string }[] = [
-  { country: "brasil", flag: "🇧🇷", name: "Brasil" },
-  { country: "eua", flag: "🇺🇸", name: "Estados Unidos" },
-  { country: "china", flag: "🇨🇳", name: "China" },
-  { country: "russia", flag: "🇷🇺", name: "Rússia" },
-  { country: "japao", flag: "🇯🇵", name: "Japão" },
+// Flag cards: ISO code drives the flag-icons CSS rendering
+export const FLAG_CARDS: {
+  country: CountrySlug;
+  iso: string; // ISO 3166-1 alpha-2 (lowercase)
+  name: string;
+  flag: string; // emoji fallback
+}[] = [
+  { country: "brasil", iso: "br", name: "Brasil", flag: "🇧🇷" },
+  { country: "eua", iso: "us", name: "Estados Unidos", flag: "🇺🇸" },
+  { country: "china", iso: "cn", name: "China", flag: "🇨🇳" },
+  { country: "russia", iso: "ru", name: "Rússia", flag: "🇷🇺" },
+  { country: "japao", iso: "jp", name: "Japão", flag: "🇯🇵" },
 ];
 
 export const ANIMAL_QUESTIONS = [
-  { emoji: "🐼", country: "China", animal: "Panda-gigante" },
-  { emoji: "🦅", country: "Estados Unidos", animal: "Águia-careca" },
-  { emoji: "🦜", country: "Brasil", animal: "Arara" },
-  { emoji: "🐻", country: "Rússia", animal: "Urso-pardo" },
-  { emoji: "🦊", country: "Japão", animal: "Raposa-vermelha" },
-  { emoji: "🐊", country: "Brasil", animal: "Jacaré" },
+  { image: panda, country: "China", animal: "Panda-gigante" },
+  { image: eagle, country: "Estados Unidos", animal: "Águia-careca" },
+  { image: macaw, country: "Brasil", animal: "Arara" },
+  { image: brownBear, country: "Rússia", animal: "Urso-pardo" },
+  { image: redFox, country: "Japão", animal: "Raposa-vermelha" },
+  { image: caiman, country: "Brasil", animal: "Jacaré" },
 ];
 
 export const SOUND_QUESTIONS = [
-  { word: "Olá!", country: "Brasil", language: "Português" },
-  { word: "Hello!", country: "Estados Unidos", language: "Inglês" },
-  { word: "你好 (Nǐ hǎo)", country: "China", language: "Mandarim" },
-  { word: "Привет (Privet)", country: "Rússia", language: "Russo" },
-  { word: "こんにちは (Konnichiwa)", country: "Japão", language: "Japonês" },
+  { word: "Olá!", country: "Brasil", language: "Português", lang: "pt-BR" },
+  { word: "Hello!", country: "Estados Unidos", language: "Inglês", lang: "en-US" },
+  { word: "你好", phonetic: "Nǐ hǎo", country: "China", language: "Mandarim", lang: "zh-CN" },
+  { word: "Привет", phonetic: "Privet", country: "Rússia", language: "Russo", lang: "ru-RU" },
+  { word: "こんにちは", phonetic: "Konnichiwa", country: "Japão", language: "Japonês", lang: "ja-JP" },
 ];
 
 export const MONUMENT_QUESTIONS = [
-  { emoji: "🗽", name: "Estátua da Liberdade", country: "Estados Unidos" },
-  { emoji: "🏯", name: "Castelo de Himeji", country: "Japão" },
-  { emoji: "🐉", name: "Grande Muralha", country: "China" },
-  { emoji: "⛪", name: "Catedral de São Basílio", country: "Rússia" },
-  { emoji: "🗿", name: "Cristo Redentor", country: "Brasil" },
+  { image: liberty, name: "Estátua da Liberdade", country: "Estados Unidos" },
+  { image: himeji, name: "Castelo de Himeji", country: "Japão" },
+  { image: greatWall, name: "Grande Muralha", country: "China" },
+  { image: stBasil, name: "Catedral de São Basílio", country: "Rússia" },
+  { image: christRedeemer, name: "Cristo Redentor", country: "Brasil" },
 ];
 
 export const ALL_COUNTRY_NAMES = [
