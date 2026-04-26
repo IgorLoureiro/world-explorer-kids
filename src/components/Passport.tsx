@@ -3,6 +3,7 @@ import { Award, Stamp as StampIcon, Sparkles, RotateCcw } from "lucide-react";
 import passport from "@/assets/passport.png";
 import { usePassport } from "@/context/PassportContext";
 import { COUNTRIES, COUNTRY_LIST } from "@/data/countries";
+import { COUNTRY_ISO } from "@/data/miniGames";
 
 export function Passport() {
   const { explorerName, setExplorerName, stamps, resetPassport } = usePassport();
@@ -83,20 +84,36 @@ export function Passport() {
                 <div className="mt-5 grid grid-cols-3 sm:grid-cols-5 gap-3">
                   {COUNTRY_LIST.map((c) => {
                     const stamp = stamps.find((s) => s.country === c.slug);
+                    const iso = COUNTRY_ISO[c.slug];
                     return (
                       <div
                         key={c.slug}
-                        className={`relative aspect-square rounded-2xl border-2 grid place-items-center text-3xl ${
+                        className={`relative aspect-square rounded-2xl border-2 overflow-hidden grid place-items-center ${
                           stamp
-                            ? "bg-card border-[var(--mint)] shadow-sticker"
+                            ? "border-[var(--mint)] shadow-sticker"
                             : "bg-muted/40 border-dashed border-border text-foreground/30"
                         }`}
                         title={stamp ? `${c.name} — ${stamp.date}` : `${c.name} (bloqueado)`}
                       >
                         {stamp ? (
                           <>
-                            <span className="absolute -rotate-12">{c.emoji}</span>
-                            <span className="absolute inset-0 rounded-2xl border-2 border-[var(--coral)]/40 rotate-3" />
+                            <span
+                              className={`fi fi-${iso}`}
+                              aria-label={`Bandeira de ${c.name}`}
+                              style={{
+                                position: "absolute",
+                                inset: 0,
+                                display: "block",
+                                width: "100%",
+                                height: "100%",
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                              }}
+                            />
+                            <span className="absolute inset-0 rounded-2xl border-2 border-[var(--coral)]/40 rotate-3 pointer-events-none" />
+                            <span className="absolute bottom-0 left-0 right-0 text-[9px] font-bold text-white bg-black/55 px-1 py-0.5 text-center truncate">
+                              {c.name}
+                            </span>
                           </>
                         ) : (
                           <StampIcon className="h-6 w-6" />
