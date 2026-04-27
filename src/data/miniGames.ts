@@ -185,30 +185,49 @@ export const ANIMAL_QUESTIONS = [
   { image: macaw, country: "Brasil", animal: "Arara" },
   { image: caiman, country: "Brasil", animal: "Jacaré" },
   { image: toucan, country: "Brasil", animal: "Tucano" },
+  { image: jaguarBr, country: "Brasil", animal: "Onça-pintada" },
+  { image: capybara, country: "Brasil", animal: "Capivara" },
   // EUA
   { image: eagle, country: "Estados Unidos", animal: "Águia-careca" },
   { image: bison, country: "Estados Unidos", animal: "Bisão americano" },
+  { image: grizzly, country: "Estados Unidos", animal: "Urso-grizzly" },
+  { image: raccoon, country: "Estados Unidos", animal: "Guaxinim" },
   // China
   { image: panda, country: "China", animal: "Panda-gigante" },
+  { image: redPanda, country: "China", animal: "Panda-vermelho" },
+  { image: goldenMonkey, country: "China", animal: "Macaco-dourado" },
+  { image: chineseCrane, country: "China", animal: "Grou-chinês" },
+  { image: southChinaTiger, country: "China", animal: "Tigre do sul da China" },
   // Rússia
   { image: brownBear, country: "Rússia", animal: "Urso-pardo" },
   { image: siberianTiger, country: "Rússia", animal: "Tigre-siberiano" },
+  { image: amurLeopard, country: "Rússia", animal: "Leopardo-de-amur" },
+  { image: saiga, country: "Rússia", animal: "Antílope saiga" },
+  { image: siberianHusky, country: "Rússia", animal: "Husky siberiano" },
   // Japão
   { image: redFox, country: "Japão", animal: "Raposa-vermelha" },
   { image: snowMonkey, country: "Japão", animal: "Macaco da neve" },
+  { image: japaneseCrane, country: "Japão", animal: "Grou-japonês" },
+  { image: sikaDeer, country: "Japão", animal: "Cervo-sika" },
+  { image: tanuki, country: "Japão", animal: "Tanuki" },
   // África do Sul
   { image: lion, country: "África do Sul", animal: "Leão" },
   { image: elephant, country: "África do Sul", animal: "Elefante africano" },
+  { image: cheetah, country: "África do Sul", animal: "Guepardo" },
+  { image: rhino, country: "África do Sul", animal: "Rinoceronte" },
   // França
   { image: rooster, country: "França", animal: "Galo gaulês" },
   // Itália
   { image: wolf, country: "Itália", animal: "Lobo-cinzento" },
+  { image: ibex, country: "Itália", animal: "Cabra-dos-alpes (Ibex)" },
   // Austrália
   { image: kangaroo, country: "Austrália", animal: "Canguru" },
   { image: koala, country: "Austrália", animal: "Coala" },
   // México
   { image: goldenEagle, country: "México", animal: "Águia-real" },
   { image: jaguar, country: "México", animal: "Jaguar" },
+  // Canadá
+  { image: moose, country: "Canadá", animal: "Alce" },
 ];
 
 export const SOUND_QUESTIONS = [
