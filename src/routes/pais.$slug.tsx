@@ -8,18 +8,7 @@ import { usePassport } from "@/context/PassportContext";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
-const VALID_SLUGS: CountrySlug[] = [
-  "brasil",
-  "eua",
-  "china",
-  "russia",
-  "japao",
-  "africadosul",
-  "franca",
-  "italia",
-  "australia",
-  "mexico",
-];
+const VALID_SLUGS = Object.keys(COUNTRIES) as CountrySlug[];
 
 export const Route = createFileRoute("/pais/$slug")({
   component: CountryPage,
