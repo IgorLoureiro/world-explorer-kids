@@ -242,17 +242,52 @@ export const ANIMAL_QUESTIONS = [
   { image: rhino, country: "África do Sul", animal: "Rinoceronte" },
   // França
   { image: rooster, country: "França", animal: "Galo gaulês" },
+  { image: chamois, country: "França", animal: "Camurça-dos-alpes" },
   // Itália
   { image: wolf, country: "Itália", animal: "Lobo-cinzento" },
   { image: ibex, country: "Itália", animal: "Cabra-dos-alpes (Ibex)" },
   // Austrália
   { image: kangaroo, country: "Austrália", animal: "Canguru" },
   { image: koala, country: "Austrália", animal: "Coala" },
+  { image: wombat, country: "Austrália", animal: "Vombate" },
   // México
   { image: goldenEagle, country: "México", animal: "Águia-real" },
   { image: jaguar, country: "México", animal: "Jaguar" },
+  { image: axolotl, country: "México", animal: "Axolote" },
   // Canadá
   { image: moose, country: "Canadá", animal: "Alce" },
+  { image: beaver, country: "Canadá", animal: "Castor" },
+  // Argentina
+  { image: guanaco, country: "Argentina", animal: "Guanaco" },
+  { image: condor, country: "Argentina", animal: "Condor-andino" },
+  // Reino Unido
+  { image: redSquirrel, country: "Reino Unido", animal: "Esquilo-vermelho" },
+  { image: highlandCow, country: "Reino Unido", animal: "Vaca das Terras Altas" },
+  // Alemanha
+  { image: hedgehog, country: "Alemanha", animal: "Ouriço-cacheiro" },
+  { image: germanEagle, country: "Alemanha", animal: "Águia-real alemã" },
+  // Espanha
+  { image: iberianLynx, country: "Espanha", animal: "Lince-ibérico" },
+  { image: spanishBull, country: "Espanha", animal: "Touro espanhol" },
+  // Egito
+  { image: fennecFox, country: "Egito", animal: "Raposa-fennec" },
+  { image: camel, country: "Egito", animal: "Camelo" },
+  { image: nileCrocodile, country: "Egito", animal: "Crocodilo-do-Nilo" },
+  // Índia
+  { image: bengalTiger, country: "Índia", animal: "Tigre-de-bengala" },
+  { image: peacock, country: "Índia", animal: "Pavão" },
+  { image: asianElephant, country: "Índia", animal: "Elefante asiático" },
+  // Coreia do Sul
+  { image: koreanMagpie, country: "Coreia do Sul", animal: "Pega-coreana" },
+  { image: koreanTiger, country: "Coreia do Sul", animal: "Tigre coreano" },
+  // Grécia
+  { image: monkSeal, country: "Grécia", animal: "Foca-monge-do-mediterrâneo" },
+  { image: greekTortoise, country: "Grécia", animal: "Tartaruga-grega" },
+  // Portugal
+  { image: iberianWolf, country: "Portugal", animal: "Lobo-ibérico" },
+  { image: barcelosRooster, country: "Portugal", animal: "Galo de Barcelos" },
+  // Brasil (extra)
+  { image: goldenTamarin, country: "Brasil", animal: "Mico-leão-dourado" },
 ];
 
 export const SOUND_QUESTIONS = [
